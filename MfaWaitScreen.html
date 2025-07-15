@@ -29,6 +29,11 @@
       font-size: 1rem;
       color: #333;
     }
+    #countdownText {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #0078D4;
+    }
     button {
       margin-top: 20px;
       background-color: #0078D4;
@@ -39,7 +44,11 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    button:hover {
+    button:disabled {
+      background-color: #a0c4e3;
+      cursor: not-allowed;
+    }
+    button:hover:enabled {
       background-color: #005a9e;
     }
   </style>
@@ -48,18 +57,9 @@
   <div class="container">
     <h1>Get Ready to Set Up MFA</h1>
     <p>You're about to begin the multi-factor authentication setup process.<br>
-    Click "Continue" to proceed to the next step.</p>
-    <button onclick="submitSelfAssertedForm()">Continue</button>
+    Please wait a moment before continuing.</p>
+    <p id="countdownText">You can continue in 12 seconds...</p>
+    <button id="continueBtn" onclick="submitSelfAssertedForm()" disabled>Continue</button>
   </div>
 
   <script>
-    function submitSelfAssertedForm() {
-      if (typeof parent.submitSelfAssertedForm === 'function') {
-        parent.submitSelfAssertedForm();
-      } else {
-        alert('Unable to proceed — form submission handler not found.');
-      }
-    }
-  </script>
-</body>
-</html>
