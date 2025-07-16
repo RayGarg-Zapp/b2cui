@@ -63,3 +63,21 @@
   </div>
 
   <script>
+    const delayInSeconds = 12;
+    let secondsRemaining = delayInSeconds;
+    const countdownText = document.getElementById("countdownText");
+    const continueBtn = document.getElementById("continueBtn");
+
+    const countdownInterval = setInterval(() => {
+      secondsRemaining--;
+      countdownText.innerText = `You can continue in ${secondsRemaining} seconds...`;
+
+      if (secondsRemaining <= 0) {
+        clearInterval(countdownInterval);
+        countdownText.innerText = "You can now continue.";
+        continueBtn.disabled = false;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
