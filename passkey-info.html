@@ -6,72 +6,39 @@
   <title>Zappsec · Create a passkey</title>
   <meta name="robots" content="noindex" />
   <style>
-    :root{
-      --bg:#0b0c10;--card:#111317;--text:#eaeef5;--muted:#9aa6b2;
-      --accent:#7c5cff;--accent-600:#6847ff;--border:#1d2129;
+    body {
+      margin:0;
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial;
+      background:#f6f7fb;
+      color:#0f172a;
     }
-    @media (prefers-color-scheme: light){
-      :root{--bg:#f6f7fb;--card:#fff;--text:#0f172a;--muted:#475569;--accent:#6d4cff;--accent-600:#5a3ae3;--border:#e5e7eb;}
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;background:radial-gradient(900px 600px at -10% -10%, rgba(124,92,255,.20), transparent 40%),
-               radial-gradient(900px 600px at 110% 110%, rgba(124,92,255,.15), transparent 45%),var(--bg);
-      color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial;
-      display:flex;align-items:center;justify-content:center;padding:24px
-    }
-    .shell{width:min(860px,100%);background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px}
-    header{display:flex;gap:10px;align-items:center;margin-bottom:8px}
-    .logo{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent-600));}
-    h1{margin:6px 0 8px;font-weight:800;font-size:26px}
-    p.lead{margin:0 0 14px;color:var(--muted);font-size:15px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 14px}
-    .card{border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start}
-    .icon{font-size:18px;margin-top:2px}
-    small.muted{color:var(--muted)}
-    /* B2C form area */
-    #api{margin-top:14px}
-    /* Make the RadioSingleSelect look like two big options */
-    /* B2C renders labels/inputs inside #api; keep selectors broad */
-    #api .panel{background:transparent;border:none;box-shadow:none;padding:0;margin:0}
-    #api .entry{margin:0}
-    #api .buttons{margin-top:14px}
-    /* optional: style the two radio rows */
-    #api input[type="radio"]{appearance:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--accent);margin-right:10px;vertical-align:middle}
-    #api input[type="radio"]:checked{background:var(--accent)}
-    #api label{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:12px;padding:12px;margin:6px 0;cursor:pointer}
-    #api .buttons button{background:linear-gradient(180deg,var(--accent),var(--accent-600));color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:700}
-    #api .buttons a{border:1px solid var(--border);padding:12px 16px;border-radius:10px;text-decoration:none;color:inherit;margin-left:8px}
-    @media (max-width:720px){.grid{grid-template-columns:1fr}}
+    .shell { max-width:860px;margin:40px auto;padding:28px;background:#fff;border-radius:12px;border:1px solid #e5e7eb }
+    h1 { font-size:24px;margin:0 0 12px }
+    p.lead { color:#475569;margin:0 0 18px }
+    .grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px }
+    .card { border:1px solid #e5e7eb;border-radius:10px;padding:12px }
+    .muted { color:#64748b;font-size:14px }
+
+    /* B2C area should be clean */
+    #api { margin-top:16px; }
+    #api .buttons button { background:#6d4cff;color:#fff;padding:12px 18px;border:none;border-radius:8px;font-weight:600 }
+    #api .buttons a { border:1px solid #e5e7eb;padding:10px 16px;border-radius:8px;text-decoration:none;color:inherit;margin-left:8px }
   </style>
 </head>
 <body>
-  <main class="shell" role="main" aria-labelledby="title">
-    <header>
-      <div class="logo" aria-hidden="true"></div>
-      <strong>Zappsec demo</strong>
-    </header>
+  <main class="shell">
+    <h1>Create a passkey</h1>
+    <p class="lead">Passkeys replace passwords with a quick, phishing-resistant sign-in.</p>
 
-    <h1 id="title">Create a passkey</h1>
-    <p class="lead">
-      Passkeys replace passwords with a quick, phishing-resistant sign-in using Face/Touch ID or your device screen lock.
-    </p>
-
-    <section class="grid" aria-label="Why passkeys">
-      <div class="card"><span class="icon">🔐</span><div><strong>Stronger security.</strong><br><small class="muted">Resistant to phishing and credential stuffing.</small></div></div>
-      <div class="card"><span class="icon">⚡</span><div><strong>Faster sign-in.</strong><br><small class="muted">No codes—just your device biometric or PIN.</small></div></div>
-      <div class="card"><span class="icon">🔄</span><div><strong>Portable.</strong><br><small class="muted">Syncs with your password manager or device keychain.</small></div></div>
-      <div class="card"><span class="icon">🧩</span><div><strong>Works anywhere.</strong><br><small class="muted">Use across browsers and devices that support passkeys.</small></div></div>
+    <section class="grid">
+      <div class="card"><strong>Stronger security.</strong><br><span class="muted">Resistant to phishing.</span></div>
+      <div class="card"><strong>Faster sign-in.</strong><br><span class="muted">No codes—just biometrics or PIN.</span></div>
+      <div class="card"><strong>Portable.</strong><br><span class="muted">Syncs with password managers.</span></div>
+      <div class="card"><strong>Works anywhere.</strong><br><span class="muted">Across devices and browsers.</span></div>
     </section>
 
-    <!-- B2C renders the form (our RadioSingleSelect + Continue) here -->
+    <!-- Critical: leave #api clean -->
     <div id="api"></div>
-
-    <p class="lead" style="margin-top:12px">
-      <small class="muted">You can set up a passkey now or choose “Skip for now” and add it later in your account settings.</small>
-    </p>
   </main>
 </body>
 </html>
-
