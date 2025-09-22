@@ -1,44 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zappsec · Create a passkey</title>
-  <meta name="robots" content="noindex" />
-  <style>
-    body {
-      margin:0;
-      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial;
-      background:#f6f7fb;
-      color:#0f172a;
-    }
-    .shell { max-width:860px;margin:40px auto;padding:28px;background:#fff;border-radius:12px;border:1px solid #e5e7eb }
-    h1 { font-size:24px;margin:0 0 12px }
-    p.lead { color:#475569;margin:0 0 18px }
-    .grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px }
-    .card { border:1px solid #e5e7eb;border-radius:10px;padding:12px }
-    .muted { color:#64748b;font-size:14px }
-
-    /* B2C area should be clean */
-    #api { margin-top:16px; }
-    #api .buttons button { background:#6d4cff;color:#fff;padding:12px 18px;border:none;border-radius:8px;font-weight:600 }
-    #api .buttons a { border:1px solid #e5e7eb;padding:10px 16px;border-radius:8px;text-decoration:none;color:inherit;margin-left:8px }
-  </style>
+  <meta charset="UTF-8" />
+  <title>Create a Passkey</title>
 </head>
 <body>
-  <main class="shell">
-    <h1>Create a passkey</h1>
-    <p class="lead">Passkeys replace passwords with a quick, phishing-resistant sign-in.</p>
+  <h1>Create a passkey</h1>
+  <p>You can set up a passkey now or skip for later.</p>
 
-    <section class="grid">
-      <div class="card"><strong>Stronger security.</strong><br><span class="muted">Resistant to phishing.</span></div>
-      <div class="card"><strong>Faster sign-in.</strong><br><span class="muted">No codes—just biometrics or PIN.</span></div>
-      <div class="card"><strong>Portable.</strong><br><span class="muted">Syncs with password managers.</span></div>
-      <div class="card"><strong>Works anywhere.</strong><br><span class="muted">Across devices and browsers.</span></div>
-    </section>
-
-    <!-- Critical: B2C expects a form, not just a div -->
-    <form id="api" method="post"></form>
-  </main>
+  <!-- Critical: B2C needs this form element -->
+  <form id="api" method="post"></form>
 </body>
 </html>
