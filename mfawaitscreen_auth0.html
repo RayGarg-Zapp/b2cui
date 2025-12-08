@@ -51,7 +51,7 @@
         <path d="M12 2l7 3v6c0 5-3.5 9-7 11-3.5-2-7-6-7-11V5l7-3z" stroke="currentColor" stroke-width="1.5"/>
         <path d="M8.8 12.2l2.4 2.4 4-4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <div class="brand-name" id="brandName">Zappsec Demo</div>
+      <div class="brand-name" id="brandName">ZappSec Demo</div>
     </div>
 
     <div class="header"><span class="badge" aria-hidden="true">Account recovery</span></div>
@@ -59,8 +59,8 @@
     <h1 id="title" class="title">Add your phone number (required)</h1>
 
     <p class="lead">
-      To keep your account secure and help you get back in quickly, we’ll verify you.
-      <strong>You’ll set up an authenticator app (TOTP) for sign-in protection.</strong>
+      To keep your account secure and help you get back in quickly, we’ll verify your phone number now.
+      <strong>Next, you’ll set up an authenticator app (TOTP) for sign-in protection.</strong>
     </p>
 
     <section class="benefits" aria-label="Benefits">
@@ -103,27 +103,24 @@
       return null;
     }
 
-    // Read resume_uri & state
-    let callback = getParam(["resume","callback_url","callbackUrl","continue_url"]);
-    const state  = getParam(["state","State"]);
+    // Read resume URL and state
+    let resume = getParam(["resume","callback_url","callbackUrl","continue_url"]);
+    const state = getParam(["state","State"]);
 
-    // Handle missing or undefined resume_uri
-    if (!callback || callback === "undefined") {
-      console.warn("⚠️ No valid resume URI found, using fallback redirect.");
-      callback = "https://dev-cnhsg0roe6qny5na.us.auth0.com/continue";
+    // If undefined, default to tenant's /continue endpoint
+    if (!resume || resume === "undefined") {
+      resume = "https://dev-cnhsg0roe6qny5na.us.auth0.com/continue";
     }
 
-    const returnTo = "http://localhost:8080/login/oauth2/code/auth0"; // Directly back to your app
     const btn  = document.getElementById("continueBtn");
     const help = document.getElementById("helpBtn");
     const err  = document.getElementById("err");
 
     btn.addEventListener("click", function(){
       try {
-        const u = new URL(callback);
-        u.searchParams.set("returnTo", returnTo);
+        const u = new URL(resume);
         if (state && !u.searchParams.get("state")) u.searchParams.set("state", state);
-        window.location.href = u.toString();
+        window.location.href = u.toString();   // back to Auth0 to trigger MFA
       } catch(e) {
         err.style.display = "block";
       }
