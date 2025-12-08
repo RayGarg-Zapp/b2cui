@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Begin MFA Setup</title>
+  <style>
+    body {
+      background-color: #f0f6ff;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+      max-width: 600px;
+      text-align: center;
+    }
+    h1 {
+      color: #0078D4;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1rem;
+      color: #333;
+    }
+    #countdownText {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #0078D4;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #0078D4;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #a0c4e3;
+      cursor: not-allowed;
+    }
+    button:hover:enabled {
+      background-color: #005a9e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Get Ready to Set Up MFA</h1>
+    <p>You're about to begin the multi-factor authentication setup process.<br>
+       Please wait a moment before continuing.</p>
+    <p id="countdownText">You can continue in 12 seconds...</p>
+    <button id="continueBtn" onclick="submitSelfAssertedForm()" disabled>Continue</button>
+  </div>
 
+  <script>
+    const delayInSeconds = 12;
+    let secondsRemaining = delayInSeconds;
+    const countdownText = document.getElementById("countdownText");
+    const continueBtn = document.getElementById("continueBtn");
+
+    const countdownInterval = setInterval(() => {
+      secondsRemaining--;
+      countdownText.innerText = `You can continue in ${secondsRemaining} seconds...`;
+      if (secondsRemaining <= 0) {
+        clearInterval(countdownInterval);
+        countdownText.innerText = "You can now continue.";
+        continueBtn.disabled = false;
+      }
+    }, 1000);
+
+    // Resume the Auth0 transaction when user clicks Continue
+    function submitSelfAssertedForm() {
+      const resumeUrl = new URLSearchParams(window.location.search).get("resume");
+      if (resumeUrl) {
+        window.location.href = resumeUrl;
+      } else {
+        alert("Missing resume URL. Please restart login.");
+      }
+    }
+  </script>
+</body>
+</html>
