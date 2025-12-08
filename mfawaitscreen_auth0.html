@@ -109,56 +109,32 @@
       return null;
     }
 
-    // Optional runtime brand override: ?brand=Acme%20Health
     const brandParam = getParam(["brand","b"]);
     if (brandParam) {
       const el = document.getElementById("brandName");
       if (el) el.textContent = brandParam;
     }
 
-    // Strivacity provides these when this page is reached via RedirectRequest
-    let callback = getParam(["callback_url","callbackUrl","continue_url","continueUrl"]);
+    // ✅ Include resume param from Auth0
+    let callback = getParam(["callback_url","callbackUrl","continue_url","continueUrl","resume"]);
     const state  = getParam(["state","State"]);
-
-    // Some deployments base64-url encode callback; try to decode if it looks encoded.
-    if (callback && /^[A-Za-z0-9_\-]+=*$/.test(callback) && !/^https?:\/\//i.test(callback)) {
-      try {
-        const decoded = atob(callback.replace(/-/g,'+').replace(/_/g,'/'));
-        if (/^https?:\/\//i.test(decoded)) callback = decoded;
-      } catch(e){}
-    }
 
     const btn  = document.getElementById("continueBtn");
     const help = document.getElementById("helpBtn");
     const err  = document.getElementById("err");
-    const hint = document.getElementById("hint");
-    const returnLink = document.getElementById("returnLink");
 
-    // Provide a visible fallback if a ?return= URL was supplied
-    const fallback = getParam(["return","app","signin"]);
-    if (fallback) {
-      returnLink.href = fallback;
-      returnLink.style.display = "inline";
+    // ✅ Fix: handle missing or undefined resume
+    if (!callback || callback === "undefined") {
+      console.warn("⚠️ No valid resume URI found, using fallback redirect.");
+      callback = "https://dev-cnhsg0roe6qny5na.us.auth0.com/u/login";
     }
 
-    // Enable Continue only if we have what we need
-    if (callback && state) {
-      btn.disabled = false;
-      hint.style.display = "none";
-    } else {
-      btn.disabled = true;
-      hint.textContent = "No active session was found. If you opened this page directly, close it and sign in again.";
-      hint.style.display = "block";
-    }
+    btn.disabled = false;
 
     btn.addEventListener("click", function(){
-      if (!callback || !state){
-        err.style.display = "block";
-        return;
-      }
       try{
         const u = new URL(callback);
-        if (!u.searchParams.get("state")) u.searchParams.set("state", state);
+        if (state && !u.searchParams.get("state")) u.searchParams.set("state", state);
         window.location.href = u.toString();
       }catch(e){
         err.style.display = "block";
@@ -166,7 +142,7 @@
     });
 
     help.addEventListener("click", function(){
-      alert("We’ll verify your phone for recovery, then guide you to set up an authenticator app (TOTP) to protect sign-ins.");
+      alert("We'll verify your phone for recovery, then guide you to set up an authenticator app (TOTP) to protect sign-ins.");
     });
   })();
   </script>
