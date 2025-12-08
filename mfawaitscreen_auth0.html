@@ -103,17 +103,17 @@
       return null;
     }
 
-    // ✅ Read resume_uri & state
+    // Read resume_uri & state
     let callback = getParam(["resume","callback_url","callbackUrl","continue_url"]);
     const state  = getParam(["state","State"]);
 
-    // ✅ Handle missing or undefined resume_uri
+    // Handle missing or undefined resume_uri
     if (!callback || callback === "undefined") {
       console.warn("⚠️ No valid resume URI found, using fallback redirect.");
       callback = "https://dev-cnhsg0roe6qny5na.us.auth0.com/continue";
     }
 
-    const returnTo = "http://localhost:8080/login/oauth2/code/auth0"; // ✅ Directly back to your app
+    const returnTo = "http://localhost:8080/login/oauth2/code/auth0"; // Directly back to your app
     const btn  = document.getElementById("continueBtn");
     const help = document.getElementById("helpBtn");
     const err  = document.getElementById("err");
