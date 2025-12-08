@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Set up your authenticator app</title>
+  <title>Set up authenticator app</title>
   <meta name="color-scheme" content="light dark" />
   <meta name="robots" content="noindex" />
   <style>
@@ -24,8 +24,7 @@
     }
     .card{width:min(780px,100%);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0)),var(--card);border:1px solid var(--border);border-radius:18px;padding:22px 24px;box-shadow:var(--shadow)}
     .brand{display:flex;align-items:center;gap:10px;margin-bottom:6px;user-select:none}
-    .brand svg{width:22px;height:22px}
-    .brand-name{font-weight:700;letter-spacing:.2px;font-size:14px}
+    .brand svg{width:22px;height:22px}.brand-name{font-weight:700;letter-spacing:.2px;font-size:14px}
     .header{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
     .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(79,140,255,.12);color:var(--accent);border:1px solid rgba(79,140,255,.25)}
     .title{font-size:26px;line-height:1.25;margin:8px 0 10px;font-weight:700}
@@ -61,7 +60,7 @@
 
     <p class="lead">
       To keep your account secure and help you get back in quickly, we’ll verify you.
-      <strong>You’ll set up an authenticator app (TOTP) for sign-in protection.</strong>
+      <strong>You'll set up an authenticator app (TOTP) for sign-in protection.</strong>
     </p>
 
     <section class="benefits" aria-label="Benefits">
@@ -85,9 +84,7 @@
       <button id="helpBtn" class="btn btn-secondary" type="button">Why am I seeing this?</button>
     </div>
 
-    <div id="err" class="error" role="alert">
-      We couldn’t resume your session. Please close this tab and sign in again.
-    </div>
+    <div id="err" class="error" role="alert">We couldn’t resume your session. Please close this tab and sign in again.</div>
 
     <div class="footer muted">
       By continuing, you agree to complete your MFA enrollment for enhanced account security.
@@ -95,44 +92,40 @@
   </main>
 
   <script>
-    (function(){
-      function getParam(name){
-        const url = new URL(window.location.href);
-        const search = new URLSearchParams(url.search);
-        return search.get(name);
-      }
+  (function(){
+    function getParam(name){
+      const url = new URL(window.location.href);
+      const search = new URLSearchParams(url.search);
+      return search.get(name);
+    }
 
-      const btn  = document.getElementById("continueBtn");
-      const help = document.getElementById("helpBtn");
-      const err  = document.getElementById("err");
+    const tenantDomain = "dev-cnhsg0roe6qny5na.us.auth0.com";
 
-      // Read the resume URL from query string
-      const resumeRaw = getParam("resume");
-      let resumeUrl = null;
+    const state = getParam("state");
+    const btn = document.getElementById("continueBtn");
+    const help = document.getElementById("helpBtn");
+    const err = document.getElementById("err");
 
-      if (resumeRaw && resumeRaw !== "undefined") {
-        try {
-          resumeUrl = decodeURIComponent(resumeRaw);
-        } catch (e) {
-          resumeUrl = resumeRaw;
-        }
-      }
+    // If we don't have a state, we can't resume the Auth0 transaction
+    if (!state) {
+      err.textContent = "We couldn’t resume your session. Please close this tab and sign in again.";
+      err.style.display = "block";
+      btn.disabled = true;
+    }
 
-      if (!resumeUrl) {
-        // No valid resume URL – disable the button and show error
-        btn.disabled = true;
+    btn.addEventListener("click", function(){
+      if (!state) {
         err.style.display = "block";
+        return;
       }
+      const continueUrl = `https://${tenantDomain}/continue?state=${encodeURIComponent(state)}`;
+      window.location.href = continueUrl; // back to Auth0 to trigger MFA + resume
+    });
 
-      btn.addEventListener("click", function () {
-        if (!resumeUrl) return;
-        window.location.href = resumeUrl; // Back to Auth0 to resume login + start MFA
-      });
-
-      help.addEventListener("click", function(){
-        alert("We’ll guide you through setting up an authenticator app (TOTP) so your sign-ins are protected.");
-      });
-    })();
+    help.addEventListener("click", function(){
+      alert("You’re seeing this screen because your organization requires an authenticator app (TOTP) as an extra layer of protection on your account.");
+    });
+  })();
   </script>
 
   <noscript>
