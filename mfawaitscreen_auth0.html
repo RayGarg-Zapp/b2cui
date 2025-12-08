@@ -42,10 +42,6 @@
     .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-size:12px;background:rgba(148,163,184,.15);padding:2px 6px;border-radius:6px;border:1px solid var(--border)}
     .footer{margin-top:16px}
     .error{color:#ef4444;font-size:13px;display:none;margin-top:8px}
-    .hint{margin-top:8px}
-    @media (max-width:720px){.benefits{grid-template-columns:1fr}}
-    a.link{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
-    a.link:hover{text-decoration:underline}
   </style>
 </head>
 <body>
@@ -55,7 +51,7 @@
         <path d="M12 2l7 3v6c0 5-3.5 9-7 11-3.5-2-7-6-7-11V5l7-3z" stroke="currentColor" stroke-width="1.5"/>
         <path d="M8.8 12.2l2.4 2.4 4-4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <div class="brand-name" id="brandName">Zappsec demo</div>
+      <div class="brand-name" id="brandName">ZappSec Demo</div>
     </div>
 
     <div class="header"><span class="badge" aria-hidden="true">Account recovery</span></div>
@@ -84,13 +80,11 @@
     </div>
 
     <div class="actions">
-      <button id="continueBtn" class="btn btn-primary" disabled>Continue</button>
+      <button id="continueBtn" class="btn btn-primary">Continue</button>
       <button id="helpBtn" class="btn btn-secondary" type="button">Why am I seeing this?</button>
-      <a id="returnLink" class="link" href="#" style="display:none" rel="noopener noreferrer">Back to sign-in</a>
     </div>
 
     <div id="err" class="error" role="alert">We couldn’t resume your session. Please close this tab and sign in again.</div>
-    <div id="hint" class="muted hint" style="display:none"></div>
 
     <div class="footer muted">By continuing, you agree to receive one-time security codes for account recovery.</div>
   </main>
@@ -109,40 +103,34 @@
       return null;
     }
 
-    const brandParam = getParam(["brand","b"]);
-    if (brandParam) {
-      const el = document.getElementById("brandName");
-      if (el) el.textContent = brandParam;
-    }
-
-    // ✅ Include resume param from Auth0
-    let callback = getParam(["callback_url","callbackUrl","continue_url","continueUrl","resume"]);
+    // ✅ Read resume_uri & state
+    let callback = getParam(["resume","callback_url","callbackUrl","continue_url"]);
     const state  = getParam(["state","State"]);
 
+    // ✅ Handle missing or undefined resume_uri
+    if (!callback || callback === "undefined") {
+      console.warn("⚠️ No valid resume URI found, using fallback redirect.");
+      callback = "https://dev-cnhsg0roe6qny5na.us.auth0.com/continue";
+    }
+
+    const returnTo = "http://localhost:8080/login/oauth2/code/auth0"; // ✅ Directly back to your app
     const btn  = document.getElementById("continueBtn");
     const help = document.getElementById("helpBtn");
     const err  = document.getElementById("err");
 
-    // ✅ Fix: handle missing or undefined resume
-    if (!callback || callback === "undefined") {
-      console.warn("⚠️ No valid resume URI found, using fallback redirect.");
-      callback = "https://dev-cnhsg0roe6qny5na.us.auth0.com/u/login";
-    }
-
-    btn.disabled = false;
-
     btn.addEventListener("click", function(){
-      try{
+      try {
         const u = new URL(callback);
+        u.searchParams.set("returnTo", returnTo);
         if (state && !u.searchParams.get("state")) u.searchParams.set("state", state);
         window.location.href = u.toString();
-      }catch(e){
+      } catch(e) {
         err.style.display = "block";
       }
     });
 
     help.addEventListener("click", function(){
-      alert("We'll verify your phone for recovery, then guide you to set up an authenticator app (TOTP) to protect sign-ins.");
+      alert("We’ll verify your phone for recovery, then guide you to set up an authenticator app (TOTP) to protect sign-ins.");
     });
   })();
   </script>
