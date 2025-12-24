@@ -7,37 +7,43 @@
   <meta name="robots" content="noindex" />
 
   <style>
-    /* ===== Base ===== */
+    /* ================= Base ================= */
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif;
-      background: linear-gradient(180deg, #0b1020, #111827);
       color: #e5e7eb;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, #1e3a8a33, transparent 40%),
+        radial-gradient(800px 500px at 90% 10%, #4f46e533, transparent 45%),
+        linear-gradient(180deg, #020617, #020617);
     }
 
     .container {
-      max-width: 920px;
-      margin: 56px auto;
-      padding: 40px;
-      background: #0f172a;
-      border-radius: 20px;
+      max-width: 960px;
+      margin: 64px auto;
+      padding: 44px;
+      background: linear-gradient(180deg, #0b1224, #020617);
+      border-radius: 24px;
       border: 1px solid #1f2937;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
+    /* ================= Header ================= */
     .badge {
       display: inline-block;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       padding: 6px 14px;
       font-size: 12px;
       font-weight: 600;
       color: #a5b4fc;
-      background: rgba(99,102,241,0.12);
+      background: rgba(99,102,241,0.14);
       border-radius: 999px;
     }
 
     h1 {
-      font-size: 32px;
+      font-size: 34px;
       margin: 0 0 12px;
       letter-spacing: -0.02em;
     }
@@ -45,49 +51,56 @@
     p.lead {
       font-size: 16px;
       color: #9ca3af;
-      margin: 0 0 32px;
-      max-width: 720px;
+      margin: 0 0 36px;
+      max-width: 760px;
+      line-height: 1.6;
     }
 
-    /* ===== Info cards ===== */
+    /* ================= Feature Cards ================= */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-bottom: 36px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 22px;
+      margin-bottom: 40px;
     }
 
     .card {
-      background: #020617;
+      background:
+        linear-gradient(180deg, #020617, #020617),
+        radial-gradient(300px 120px at 50% 0%, #6366f122, transparent 60%);
       border: 1px solid #1f2937;
-      border-radius: 14px;
-      padding: 18px 20px;
+      border-radius: 18px;
+      padding: 20px 22px;
     }
 
     .card strong {
-      display: block;
-      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
       font-size: 15px;
       color: #f9fafb;
+    }
+
+    .emoji {
+      font-size: 18px;
     }
 
     .muted {
       color: #9ca3af;
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
-    /* ===== Azure AD B2C injection area ===== */
-    #api {
-      margin-top: 12px;
+    /* ================= B2C Injection Area ================= */
+    form#api {
+      margin-top: 8px;
     }
 
-    /* Spacing for injected fields */
     #api .entry-item {
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
-    /* Labels */
     #api label {
       display: block;
       margin-bottom: 6px;
@@ -95,13 +108,12 @@
       color: #e5e7eb;
     }
 
-    /* Inputs */
     #api input[type="text"],
-    #api input[type="password"],
-    #api input[type="email"] {
+    #api input[type="email"],
+    #api input[type="password"] {
       width: 100%;
       padding: 12px 14px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid #334155;
       background: #020617;
       color: #f9fafb;
@@ -114,15 +126,15 @@
       box-shadow: 0 0 0 1px rgba(99,102,241,0.6);
     }
 
-    /* Checkboxes (safe styling) */
+    /* Checkbox (safe styling only) */
     #api input[type="checkbox"] {
       accent-color: #6366f1;
       transform: scale(1.1);
       margin-right: 8px;
     }
 
-    #api .remember-me,
-    #api .checkbox {
+    #api .checkbox,
+    #api .remember-me {
       display: flex;
       align-items: center;
       margin-top: 10px;
@@ -132,7 +144,7 @@
 
     /* Buttons */
     #api .buttons {
-      margin-top: 28px;
+      margin-top: 30px;
       display: flex;
       gap: 14px;
       align-items: center;
@@ -141,12 +153,13 @@
     #api button {
       background: linear-gradient(135deg, #6366f1, #4f46e5);
       color: #fff;
-      padding: 12px 24px;
+      padding: 12px 26px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-weight: 600;
       font-size: 15px;
       cursor: pointer;
+      box-shadow: 0 10px 20px rgba(79,70,229,0.35);
     }
 
     #api button:hover {
@@ -155,11 +168,11 @@
 
     /* Errors */
     #api .error {
-      margin-top: 12px;
+      margin-top: 14px;
       padding: 12px 14px;
-      border-radius: 10px;
+      border-radius: 12px;
       background: rgba(239,68,68,0.12);
-      border: 1px solid rgba(239,68,68,0.3);
+      border: 1px solid rgba(239,68,68,0.35);
       color: #fecaca;
       font-size: 14px;
     }
@@ -172,31 +185,32 @@
 
     <h1>🔐 Create a Passkey</h1>
     <p class="lead">
-      Complete your sign-in by setting up a passkey.
+      Complete your sign-in by setting up a passkey.  
       Passkeys replace passwords with phishing-resistant, biometric authentication.
     </p>
 
     <section class="grid">
       <div class="card">
-        <strong>Phishing Resistant</strong>
+        <strong><span class="emoji">🛡️</span> Phishing Resistant</strong>
         <span class="muted">No shared secrets. No credential replay.</span>
       </div>
       <div class="card">
-        <strong>Seamless UX</strong>
-        <span class="muted">Biometrics — no codes.</span>
+        <strong><span class="emoji">✨</span> Seamless UX</strong>
+        <span class="muted">Biometrics only — no codes or passwords.</span>
       </div>
       <div class="card">
-        <strong>Enterprise Ready</strong>
-        <span class="muted">Works with Just-In-Time (JIT) and bulk-migrated users.</span>
+        <strong><span class="emoji">🏢</span> Enterprise Ready</strong>
+        <span class="muted">Works with JIT and bulk-migrated users.</span>
       </div>
       <div class="card">
-        <strong>Portable</strong>
+        <strong><span class="emoji">♻️</span> Portable</strong>
         <span class="muted">Backed up via platform credential managers.</span>
       </div>
     </section>
 
-    <!-- REQUIRED: B2C injects everything here -->
-    <div id="api"></div>
+    <!-- REQUIRED: Azure AD B2C injects fields + submit here -->
+    <form id="api" method="post"></form>
+
   </main>
 </body>
 </html>
